@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { authApp, firestoreApp } from '../config/firebase';
-import { collection, doc, updateDoc, deleteDoc, getDoc, getDocs,setDoc } from 'firebase/firestore';
+import { collection, doc, updateDoc, deleteDoc, getDoc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword , signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'firebase/auth';
 
 export const AuthContext = createContext();
@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = (email, password) => {
-    return signInWithEmailAndPassword(authApp,email, password);
+    return signInWithEmailAndPassword(authApp, email, password);
   };
 
   const logout = () => {
@@ -66,15 +66,21 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(authApp,async (user) => {
+    onAuthStateChanged(authApp,async (user) => {
       if (user) {
-        const docref = doc(firestoreApp,"user",user.uid)
-        const userDoc = await getDoc(docref);
-        if (userDoc.exists() && userDoc.data().role) {
+        if (user.uid === "V5InpFeRSZgyd8eCXfxwxjvu9jo2"){
           setRole('Admin');
         } else {
-        setRole(null);
+          setRole(null);
         }
+      //  const docref = doc(firestoreApp,"user",user.uid)
+      
+      //  const userDoc = await getDoc(docref);
+      //  if (userDoc.exists() && userDoc.data().role) {
+   //       setRole('Admin');
+    //    } else {
+    //    setRole(null);
+    //    }
       }
     });
   })

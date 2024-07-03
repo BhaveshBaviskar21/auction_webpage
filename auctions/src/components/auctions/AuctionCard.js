@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Countdown from 'react-countdown';
 import { AuthContext } from '../../context/AuthContext';
+import { useStateContext } from '../../context/ContractContext';
 
 const renderer = ({ days, hours, minutes, seconds, completed, props }) => {
 
@@ -24,6 +25,7 @@ const renderer = ({ days, hours, minutes, seconds, completed, props }) => {
     const bid = parseFloat(props.bidValue);
     if (bid > props.item.curPrice) {
       await props.bidAuction(props.item.id, bid);
+      await props.placebidContract(props.item.id, bid);
       props.setBidValue('');
       props.setErrorMessage('');
       window.location.reload() // Clear error message after successful bid
@@ -66,7 +68,10 @@ const renderer = ({ days, hours, minutes, seconds, completed, props }) => {
               ) : props.owner.email === props.item.email ? (
                 <div>
                   <div
-                  onClick={() => props.endAuction(props.item.id)}
+                  onClick={() => {
+                    props.endAuction(props.item.id)
+                    props.endAuctionContract(props.item.id)
+                  }}
                   className="btn btn-outline-secondary"
                   >
                   Cancel Auction
@@ -120,6 +125,7 @@ const renderer = ({ days, hours, minutes, seconds, completed, props }) => {
 export const AuctionCard = ({ item }) => {
   let expiredDate = item.duration;
   const { currentUser, bidAuction, endAuction, addToCart} = useContext(AuthContext);
+  const { endAuctionContract, placebidContract } = useStateContext();
   const [bidValue, setBidValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   
@@ -129,6 +135,8 @@ export const AuctionCard = ({ item }) => {
       date={expiredDate}
       bidAuction={bidAuction}
       endAuction={endAuction}
+      endAuctionContract = {endAuctionContract}
+      placebidContract = {placebidContract}
       bidValue={bidValue}
       setBidValue={setBidValue}
       errorMessage={errorMessage}

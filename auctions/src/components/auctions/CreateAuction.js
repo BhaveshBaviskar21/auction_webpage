@@ -1,8 +1,8 @@
 import { Button, Form, Modal, Alert, Row, Col } from 'react-bootstrap';
 import React, { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import UploadProgress from './UploadProgress';
-import uploadStorage from '../../context/uploadStorage';
+import UploadStorage from '../../context/UploadStorage';
+import { useStateContext } from '../../context/ContractContext';
 
 
 export const CreateAuction = ({setProgress}) => {
@@ -17,6 +17,7 @@ export const CreateAuction = ({setProgress}) => {
     const itemImage = useRef();
 
     const { currentUser } = useContext(AuthContext);
+    const { createAuctionContract } = useStateContext();
 
     const imgTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -44,9 +45,8 @@ export const CreateAuction = ({setProgress}) => {
             duration: dueDate,
             itemImage: itemImage.current.files[0],
         };
-
-
-        uploadStorage(newAuction, setProgress);
+        
+        UploadStorage(newAuction, setProgress, createAuctionContract);
         closeForm();
     }   
 

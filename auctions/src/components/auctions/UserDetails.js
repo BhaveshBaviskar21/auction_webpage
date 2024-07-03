@@ -1,6 +1,6 @@
 import { Button, Form, Modal, Alert, Row, Col } from 'react-bootstrap';
-import React, { useContext, useRef, useState, useEffect } from 'react';
-import { getDocs,getDoc, doc, collection , updateDoc, Timestamp, query, where} from 'firebase/firestore';
+import React, { useState } from 'react';
+import { getDocs,getDoc, doc, collection , Timestamp, query, where} from 'firebase/firestore';
 import { firestoreApp } from '../../config/firebase';
 
 export const UserDetails = () => {
@@ -109,7 +109,7 @@ export const UserDetails = () => {
                                     <Col>
                                         <Form.Group>
 
-                                            {doc.paymentCompleted == 'true' ? (
+                                            {doc.paymentCompleted === 'true' ? (
                                                 <Form.Label>Done</Form.Label>
                                             ) : (
                                                 <Form.Label>Pending</Form.Label>
@@ -119,7 +119,7 @@ export const UserDetails = () => {
                                         </Form.Group>
                                     </Col>
                                     <Col>
-                                        {doc.paymentCompleted == 'true' ? (
+                                        {doc.paymentCompleted === 'true' ? (
                                                 <Button size="sm" variant="outline-primary" onClick={() => detailsForm(doc.id)}>
                                                     Details
                                                 </Button>

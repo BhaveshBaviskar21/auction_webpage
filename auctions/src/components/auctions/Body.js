@@ -9,13 +9,11 @@ import { firestoreApp } from '../../config/firebase';
 import { UserDetails } from './UserDetails';
 
 
-
-
 export const AuctionBody = () => {
   const [progress, setProgress] = useState(0);
   const { currentUser, globalMsg, getRole } = useContext(AuthContext);
   const [auctionDocs, setAuctionDocs] = useState([]);
-
+  
   const fetchDocs = async () => {
     try {
       let documents = [];
@@ -36,6 +34,7 @@ export const AuctionBody = () => {
 
     return () => clearInterval(intervalId); // cleanup on unmount
   }, []);
+
 
   return (
     <div className="py-5">

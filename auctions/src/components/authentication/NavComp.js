@@ -4,9 +4,11 @@ import { AuthContext } from '../../context/AuthContext';
 import { LoginComp } from './LoginComp';
 import { RegisterComp } from './RegisterComp';
 import { PaymentRequests } from './PaymentRequests'
+import { useAddress,ConnectWallet} from '@thirdweb-dev/react';
 
 export const NavComp = () => {
   const { currentUser, logout , getRole} = useContext(AuthContext);
+  const address = useAddress();
 
   return (
     <nav className="container navbar sticky-top navbar-light bg-light">
@@ -23,6 +25,17 @@ export const NavComp = () => {
                   <PaymentRequests/>
                 </div>
                 }
+                { address ? (
+                  <div className="btn  mx-2">
+                    <ConnectWallet/>
+                  </div>
+                ) :(
+                  <div 
+                  className="btn mx-2">
+                  <ConnectWallet/>
+                </div>
+                )}
+                
                 <div className="btn btn-outline-secondary mx-2 disabled">
                   {currentUser.email}
                 </div>

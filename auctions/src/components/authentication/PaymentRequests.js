@@ -18,7 +18,7 @@ export const PaymentRequests = () => {
     let documents = []
     let total = 0
     querySnapshot.forEach(async (docs) => {
-        if(docs.data().paymentCompleted == 'false'){
+        if(docs.data().paymentCompleted === 'false'){
             const docInfo = await getDoc(doc(firestoreApp, 'user', currentUser.uid, 'winAuctions', docs.id))
             documents.push({ id: docs.id, ...docInfo.data() });
             total += docInfo.data().curPrice
@@ -189,7 +189,6 @@ export const PaymentRequests = () => {
                                     </Col>
                                 </Row>)
                             }
-                            
                         })}
                         <Row>
                             <Col>
